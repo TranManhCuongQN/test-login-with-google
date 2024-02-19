@@ -52,14 +52,18 @@ export default function Chat() {
     //   console.log(socket.id); // undefined
     // });
 
-    socket.on("connect_error", (err) => {
-      console.log(err.data);
-    });
-
     socket.on("receive_message", (data) => {
       const { payload } = data;
       console.log("data", payload);
       setConversations((conversations) => [...conversations, payload]);
+    });
+
+    socket.on("connect_error", (err) => {
+      console.log(err.data);
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.log(reason);
     });
 
     return () => {
