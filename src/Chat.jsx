@@ -52,13 +52,13 @@ export default function Chat() {
     //   console.log(socket.id); // undefined
     // });
 
-    socket.auth = {
-      _id: profile._id,
-    };
-    socket.connect();
+    socket.on("connect_error", (err) => {
+      console.log(err.data);
+    });
 
     socket.on("receive_message", (data) => {
       const { payload } = data;
+      console.log("data", payload);
       setConversations((conversations) => [...conversations, payload]);
     });
 
@@ -66,6 +66,8 @@ export default function Chat() {
       socket.disconnect();
     };
   }, []);
+
+  console.log("conversations", conversations);
 
   useEffect(() => {
     // when user click to chat with someone to watch messages
